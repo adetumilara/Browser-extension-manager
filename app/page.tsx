@@ -1,65 +1,170 @@
+"use client";
+import { ModeToggle } from "@/components/modeToggle";
 import Image from "next/image";
+import { Switch } from "@/components/ui/switch";
+import { useEffect, useState } from "react";
+const extensions = [
+  {
+    logo: "./assets/images/logo-devlens.svg",
+    name: "DevLens",
+    description:
+      "Quickly inspect page layouts and visualize element boundaries.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-style-spy.svg",
+    name: "StyleSpy",
+    description: "Instantly analyze and copy CSS from any webpage element.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-speed-boost.svg",
+    name: "SpeedBoost",
+    description: "Optimizes browser resource usage to accelerate page loading.",
+    isActive: false,
+  },
+  {
+    logo: "./assets/images/logo-json-wizard.svg",
+    name: "JSONWizard",
+    description:
+      "Formats, validates, and prettifies JSON responses in-browser.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-tab-master-pro.svg",
+    name: "TabMaster Pro",
+    description: "Organizes browser tabs into groups and sessions.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-viewport-buddy.svg",
+    name: "ViewportBuddy",
+    description:
+      "Simulates various screen resolutions directly within the browser.",
+    isActive: false,
+  },
+  {
+    logo: "./assets/images/logo-markup-notes.svg",
+    name: "Markup Notes",
+    description:
+      "Enables annotation and notes directly onto webpages for collaborative debugging.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-grid-guides.svg",
+    name: "GridGuides",
+    description:
+      "Overlay customizable grids and alignment guides on any webpage.",
+    isActive: false,
+  },
+  {
+    logo: "./assets/images/logo-palette-picker.svg",
+    name: "Palette Picker",
+    description: "Instantly extracts color palettes from any webpage.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-link-checker.svg",
+    name: "LinkChecker",
+    description: "Scans and highlights broken links on any page.",
+    isActive: true,
+  },
+  {
+    logo: "./assets/images/logo-dom-snapshot.svg",
+    name: "DOM Snapshot",
+    description: "Capture and export DOM structures quickly.",
+    isActive: false,
+  },
+  {
+    logo: "./assets/images/logo-console-plus.svg",
+    name: "ConsolePlus",
+    description:
+      "Enhanced developer console with advanced filtering and logging.",
+    isActive: true,
+  },
+];
+const filters = ["All", "Active", "Inactive"];
 
 export default function Home() {
+  const [handleFilter, setHandleFilter] = useState("All");
+
+  const filteredExtensions =
+    handleFilter === "Active"
+      ? extensions.filter((ext) => ext.isActive === true)
+      : handleFilter === "Inactive"
+      ? extensions.filter((ext) => ext.isActive === false)
+      : extensions;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="flex flex-col items-center justify-items-start bg-background mb-[4rem]">
+      {/* NAV BAR */}
+      <nav className="w-[80%] flex justify-between mt-[2rem] bg-background border-[0.1px] border-foreground py-[.5rem] px-[.5rem] rounded-lg">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          src="/assets/images/logo.svg"
+          alt="logo"
+          width={200}
+          height={200}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        <ModeToggle />
+      </nav>
+      {/* BUTTONS */}
+      <div className="w-[80%] flex flex-col items-center justify-center mt-[2rem] md:flex-row md:justify-between md:items-center">
+        <h3 className="text-[2rem]">Extension List</h3>
+
+        <div className="flex justify-between w-[100%] mt-[1rem] md:w-[35%] md:mt-0">
+          {filters.map((filter) => {
+            return (
+              <button
+                className={`${
+                  handleFilter === filter
+                    ? "bg-amber-600 border-0"
+                    : "bg-background border-[0.1px]"
+                } text-foreground  border-foreground px-[1.5rem] py-[.5rem] rounded-full hover:bg-amber-600 hover:border-0`}
+                onClick={() => setHandleFilter(filter)}
+                key={filter}
+              >
+                {filter}
+              </button>
+            );
+          })}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+      {/* CARDS */}
+      <div className="w-[80%] grid grid-cols-1  gap-5 mt-[3rem] md:grid-cols-3">
+        {filteredExtensions.map((extension) => {
+          return (
+            <div
+              key={extension.name}
+              className="flex flex-col bg-background border-[0.1px] border-foreground p-2.5 rounded-lg mb-3"
+            >
+              <div className="flex w-[100%] items-start">
+                <Image
+                  src={`${extension.logo}`}
+                  alt={extension.name}
+                  width={50}
+                  height={50}
+                />
+                <div className="ml-[3rem] flex flex-col justify-items-start">
+                  <h3 className="text-[1.2rem]">{extension.name}</h3>
+                  <p className="mt-[.5rem]">{extension.description}</p>
+                </div>
+              </div>
+              <div className="flex w-[100%] justify-between items-center">
+                <button>Remove</button>
+                <div>
+                  <Switch
+                    // className="bg-[#FF6B5C]"
+                    defaultChecked={extension.isActive}
+                    onClick={() => {
+                      extension.isActive = !extension.isActive;
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
