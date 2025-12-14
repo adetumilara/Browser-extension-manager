@@ -149,8 +149,10 @@ export default function Home() {
                   <p className="mt-[.5rem]">{extension.description}</p>
                 </div>
               </div>
-              <div className="flex w-[100%] justify-between items-center">
-                <button>Remove</button>
+              <div className="flex w-[100%] justify-between items-center mt-[1rem]">
+                <button className="p-[.5rem] bg-background border-[1px] border-foreground rounded-full hover:border-[#FF6B5C] hover:text-[#FF6B5C]">
+                  Remove
+                </button>
                 <div>
                   <Switch
                     // className="bg-[#FF6B5C]"
